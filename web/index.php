@@ -8,7 +8,7 @@ if (empty($_SESSION['isLogin'])) {
 }
 
 require_once 'db.php';
-$sql = 'SELECT * FROM messages';
+$sql = 'SELECT messages.*, users.name, users.email FROM messages LEFT JOIN users on messages.user_id = users.id';
 
 $connection = getDBConnection();
 
@@ -20,49 +20,46 @@ $connection = getDBConnection();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./public/css/main.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="./public/css/main.css?a=4">
+    <title>列表</title>
 </head>
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <?php if ($results = mysqli_query($connection, $sql)) { ?>
-                    <?php if (mysqli_num_rows($results) > 0)  { ?>
-                        <?php foreach(mysqli_fetch_assoc($results) as $message) { ?>
-                            <div class="card">
-                                <div class="title"><?php  $message['content'] ?></div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div>
-                                            姓名：
-                                        </div>
-
-                                        <div>
-                                            Email：
-                                        </div>
-
-                                        <div>
-                                            建立日期：
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        留言內容：
-                                    </div>
-                                </div>
-                                <div style="float:right">
-                                    <a class="btn btn-primary" href="/edit">編輯</a>
-                                    <form action="">
-                                        <input class="btn btn-danger" type="submit" value="刪除">
+        <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">姓名</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">標題</th>
+                        <th scope="col">建立時間</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($results = mysqli_query($connection, $sql)) { ?>
+                        <?php if (mysqli_num_rows($results) > 0)  { ?>
+                            <?php while($row = mysqli_fetch_array($results)) { ?>
+                            <tr>
+                                <th scope="row"><?php echo $row['id'] ?></th>
+                                <td><?php echo $row['name'] ?></td>
+                                <td><?php echo $row['email'] ?></td>
+                                <td><?php echo $row['title'] ?></td>
+                                <td><?php echo $row['created_at'] ?></td>
+                                <td >
+                                    <form style="display:inline" action="">
+                                        <input type="submit" class="btn btn-primary" value="Edit">
                                     </form>
-                                </div>
-                            </div>
+                                    <form style="display:inline" action="">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+                                    </form>
+                                </td>
+                            </tr>
+                                <?php } ?>
                         <?php } ?>
                     <?php } ?>
-                <?php } ?>
-            </div>
-        </div>
+                </tbody>
+            </table>
     </div>
 </body>
 </html>
