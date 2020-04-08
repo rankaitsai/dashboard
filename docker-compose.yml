@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+    nginx:
+        build: ./php-nginx/nginx/
+        image: nginx:latest
+        restart: unless-stopped
+        ports:
+            # 本機port:Container的Port
+            - '8088:80'
+        # depends_on php
+        depends_on:
+            - 'php'
+        volumes:
+            # 對應主機./conf.d目錄到容器/etc/nginx/conf.d目錄
+            - "./php-nginx/nginx/conf.d:/etc/nginx/conf.d"
+            # './{本地web資料夾(可自定義)}:/var/www/html/{your-project}'
+            - "./web:/var/www/html/dashboard"
+        networks:
+          - 'app_net'
+        container_name: "compose-nginx"
+    php:
+        build: ./php-nginx/php/
+        # image指定build Dockerfile產生Container的名稱
+        image: php:7.3-fpm
+        restart: unless-stopped
+        ports:
+            # '本機port:Container的Port'
+            - '9000:9000'
+        volumes:
+            # 掛載
+            - "./web:/var/www/html/dashboard"
+        networks:
+          - 'app_net'
+        container_name: "compose-php"
+    mysql:
+        image: mysql:5.7
+        restart: unless-stopped
+        ports:
+            # 本機Port:Container的Port
+            - '3309:3306'
+        environment:
+            - MYSQL_DATABASE=dashboards
+            - MYSQL_ROOT_PASSWORD=140813
+        networks:
+            app_net:
+                # 固定子網路ip(Container IP)，網段必須在子網路10.10.*.*
+                ipv4_address: 10.10.10.1
+        container_name: "compose-mysql"
+networks:
+    # 配置docker network
+    app_net:
+        driver: bridge
+        ipam:
+            config:
+                # 子網路(預設Gateway: 10.10.0.1)
+                - subnet: 10.10.0.0/16
