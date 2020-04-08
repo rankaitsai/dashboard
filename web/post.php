@@ -3,7 +3,7 @@
 session_start();
 
 // 若沒有登入狀態導向登入頁面
-if (empty($_SESSION['isLogin'])) {
+if (empty($_SESSION['isLogin']) || empty($_SESSION['userId']) || empty($_SESSION['email'])) {
     header('location: login.php');
 }
 
@@ -13,19 +13,16 @@ $connection = getDBConnection();
 $userId = $_SESSION['userId'];
 $email = $_SESSION['email'];
 
-// 若有登入session
-if (!empty($userId) && !empty($email)) {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $title = $_POST['title'];
-        $content = $_POST['content'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'];
+    $content = $_POST['content'];
 
-        $sql = "INSERT INTO messages (user_id, title, content) VALUES ('" . $userId . "','" . $title . "','" . $content . "')";
-        
-        if ($result = mysqli_query($connection, $sql)) {
-            header('location: index.php');
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($connection);
-        }
+    $sql = "INSERT INTO messages (user_id, title, content) VALUES ('" . $userId . "','" . $title . "','" . $content . "')";
+    
+    if ($result = mysqli_query($connection, $sql)) {
+        header('location: index.php');
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($connection);
     }
 }
 
@@ -44,7 +41,7 @@ if (!empty($userId) && !empty($email)) {
     <div class="form">
         <h2>留言功能</h2>
 
-        <form action="/post.php" method="post">
+        <form action="post.php" method="POST">
             <div class="form-group">
                 <label for="title">標題</label>
                 <input type="text" class="form-control" name="title" id="title"></input>

@@ -8,7 +8,7 @@ if (empty($_SESSION['isLogin'])) {
 }
 
 require_once 'db.php';
-$sql = 'SELECT messages.*, users.name, users.email FROM messages LEFT JOIN users on messages.user_id = users.id';
+$sql = 'SELECT messages.*, users.id as user_id, users.name, users.email FROM messages LEFT JOIN users on messages.user_id = users.id';
 
 $connection = getDBConnection();
 
@@ -47,12 +47,14 @@ $connection = getDBConnection();
                                 <td><?php echo $row['title'] ?></td>
                                 <td><?php echo $row['created_at'] ?></td>
                                 <td >
-                                    <form style="display:inline" action="">
-                                        <input type="submit" class="btn btn-primary" value="Edit">
-                                    </form>
-                                    <form style="display:inline" action="">
-                                        <input type="submit" class="btn btn-danger" value="Delete">
-                                    </form>
+                                    <?php if ($_SESSION['userId'] === (int)$row['user_id']) { ?>
+                                        <form style="display:inline" action="">
+                                            <input type="submit" class="btn btn-primary" value="Edit">
+                                        </form>
+                                        <form style="display:inline" action="">
+                                            <input type="submit" class="btn btn-danger" value="Delete">
+                                        </form>
+                                    <?php } ?>
                                 </td>
                             </tr>
                                 <?php } ?>

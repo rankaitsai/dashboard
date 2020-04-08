@@ -54,6 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password">密碼：</label>
                 <input type="password" name="password" class="form-control" id="password" placeholder="Password">
             </div>
+            <div>
+                <span>沒有帳號嗎？<a href="/register.php">註冊</a></span>
+            </div>
             <input type="submit" value="登入" class="btn btn-primary">
         </form>
     </div>
