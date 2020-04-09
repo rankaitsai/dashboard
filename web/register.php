@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result = mysqli_query($connection, $sql)) {
             $_SESSION['isLogin'] = true;
-            $_SESSION['userId'] = mysqli_insert_id($connection);
+            $_SESSION['userId'] = (int)mysqli_insert_id($connection);
             $_SESSION['email'] = $email;
             $_SESSION['name'] = $name;
             header('location: index.php');
