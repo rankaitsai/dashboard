@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="form">
-        <h2>Login</h2>
+        <h2>登入</h2>
 
         <form action="/login.php" method="post">
             <div class="form-group">

@@ -25,6 +25,11 @@ $connection = getDBConnection();
 </head>
 <body>
     <div class="container">
+        <?php if (!empty($tips)) { ?>
+            <?php foreach($tips as $tip) { ?>
+                <span><?php echo $tip ?></span><br>
+            <?php } ?>
+        <?php }?>
         <table class="table table-striped">
                 <thead>
                     <tr>
@@ -47,11 +52,12 @@ $connection = getDBConnection();
                                 <td><?php echo $row['title'] ?></td>
                                 <td><?php echo $row['created_at'] ?></td>
                                 <td >
-                                    <?php if ($_SESSION['userId'] === (int)$row['user_id']) { ?>
-                                        <form style="display:inline" action="">
+                                    <?php if ($_SESSION['userId'] === $row['user_id']) { ?>
+                                        <form style="display:inline" method="GET" action="./edit.php?id=1<?php echo $row['id'] ?>">
                                             <input type="submit" class="btn btn-primary" value="Edit">
                                         </form>
-                                        <form style="display:inline" action="">
+                                        <form style="display:inline" method="POST" action="delete.php">
+                                            <input type="hidden" name="messageId" value=<?php echo $row['id'] ?>>
                                             <input type="submit" class="btn btn-danger" value="Delete">
                                         </form>
                                     <?php } ?>
