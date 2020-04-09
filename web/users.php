@@ -1,15 +1,8 @@
 <?php
 
 // DB連線
-$connection = mysqli_connect('192.168.99.101:3309', 'root', '140813');
-
-if (!$connection) {
-    die('Connection failed');
-}
-
-if (!mysqli_select_db($connection, 'dashboards')) {
-    die('Database error');
-}
+require_once 'db.php';
+$connection = getDBConnection();
 
 $userSchemaSql = "CREATE TABLE users (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
