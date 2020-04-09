@@ -37,6 +37,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'];
     $content = $_POST['content'];
+
+    if (empty($_POST['messageId'])) {
+        echo 'sdokasopdk';
+    }
+
+    $messageId = $_POST['messageId'];
+
+    $sql = "UPDATE messages SET title = '" . $title . "', content = '" . $content . "' where id = " . $messageId . " and user_id = " . $_SESSION['userId'];
+
+    if ($result = mysqli_query($connection, $sql)) {
+        // 更新成功
+        if (mysqli_affected_rows($connection) === 1) {
+            header('location: edit.php?id=' . $messageId);
+        }
+        // 失敗
+        else {
+
+        }
+    }
 }
 
 ?>
@@ -51,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Document</title>
 </head>
 <body>
+    <?php require_once 'navbar.php' ?>
     <div class="form">
         <h2>編輯留言</h2>
 
@@ -62,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label for="content">內容</label>
-                <textarea class="form-control" name="content" id="content" rows="3" value="<?php echo !empty($content) ? $content : '' ?>"></textarea>
+                <textarea class="form-control" name="content" id="content" rows="3"><?php echo !empty($content) ? $content : '' ?></textarea>
             </div>
             <input type="submit" value="修改" class="btn btn-primary">
         </form>

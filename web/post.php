@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error: " . $sql . "<br>" . mysqli_error($connection);
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>留言</title>
 </head>
 <body>
+    <?php require_once 'navbar.php' ?>
     <div class="form">
         <h2>留言功能</h2>
 

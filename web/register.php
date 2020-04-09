@@ -67,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>註冊頁面</title>
 </head>
 <body>
+    <?php require_once 'navbar.php' ?>
     <div class="form">
         <h2>歡迎註冊</h2>
         <form action="" method="POST">

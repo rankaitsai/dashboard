@@ -24,6 +24,7 @@ $connection = getDBConnection();
     <title>列表</title>
 </head>
 <body>
+    <?php require_once 'navbar.php' ?>
     <div class="container">
         <?php if (!empty($tips)) { ?>
             <?php foreach($tips as $tip) { ?>
