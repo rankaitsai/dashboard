@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = mysqli_fetch_assoc($result);
             if (!empty($user)) {
                 $_SESSION['isLogin'] = true;
-                $_SESSION['userId'] = $user['id'];
+                $_SESSION['userId'] = (int)$user['id'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['name'] = $user['name'];
                 header('location: index.php');
