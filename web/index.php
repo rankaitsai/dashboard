@@ -53,9 +53,7 @@ $connection = getDBConnection();
                                 <td><?php echo $row['created_at'] ?></td>
                                 <td >
                                     <?php if ($_SESSION['userId'] === $row['user_id']) { ?>
-                                        <form style="display:inline" method="GET" action="./edit.php?id=1<?php echo $row['id'] ?>">
-                                            <input type="submit" class="btn btn-primary" value="Edit">
-                                        </form>
+                                        <a class="btn btn-primary" href="edit.php?id=<?php echo $row['id'] ?>">Edit</a>
                                         <form style="display:inline" method="POST" action="delete.php">
                                             <input type="hidden" name="messageId" value=<?php echo $row['id'] ?>>
                                             <input type="submit" class="btn btn-danger" value="Delete">
