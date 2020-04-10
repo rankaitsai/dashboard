@@ -1,16 +1,18 @@
 <?php
 
-session_start();
+requier('common.php');
+// session_start();
 
 // 若沒有登入狀態導向登入頁面
 if (empty($_SESSION['isLogin'])) {
     header('location: login.php');
+    exit;
 }
 
-require_once 'db.php';
+// require_once 'db.php';
 $sql = 'SELECT messages.*, users.id as user_id, users.name, users.email FROM messages LEFT JOIN users on messages.user_id = users.id';
 
-$connection = getDBConnection();
+// $connection = getDBConnection();
 
 ?>
 

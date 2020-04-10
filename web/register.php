@@ -12,8 +12,16 @@ $connection = getDBConnection();
 
 $errors = [];
 
+function clean($input) {
+    $input = trim($input);
+    $input = strip_tags($input);
+    $input = htmlentities($input);
+    // nl2br <--- x
+    return $input;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
+    $name = clean($_POST['name']);
     $email = $_POST['email'];
     $password = $_POST['password'];
 

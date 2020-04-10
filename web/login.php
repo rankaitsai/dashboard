@@ -15,7 +15,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['email'];
         $password = $_POST['password'];
     
-        $sql = "SELECT * FROM users WHERE email = '" . $email . "' AND password = '" . $password . "'";
+        $sql = "SELECT * FROM users WHERE email = '" . addslashes($email) . "' AND password = '" . $password . "'";
+        
+        $sql = sprintf("SELECT * FROM user WHERE email = %s AND user = %s", [
+            $email,
+            $password,
+        ]);
+
+        $str = '<div style="color:red;background;height:100000px;">111111</div>';
+        $str = strip_tags($str); // 1111111
+
+        htmlentities
+        htmlspecialchars // <> &gt;  &lt; 
 
         if ($result = mysqli_query($connection, $sql)) {
             $user = mysqli_fetch_assoc($result);
